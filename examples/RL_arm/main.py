@@ -75,7 +75,7 @@ f.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 f.gridTrain = False
-f.trialTime = 50*1e1
+f.trialTime = 5*1e1
 f.numTrains = 2
 f.testTime = (f.numTrains+1) * f.trialTime
 f.trainTime = f.numTrains * f.trialTime
@@ -88,9 +88,10 @@ f.resetids = []
 
 # create Arm class and setup
 if f.useArm:
-	f.arm = Arm(f.animArm, f.graphsArm)
-	f.arm.targetid = 0
-	f.arm.setup(f)  # pass framework as argument
+    f.arm = Arm(f.animArm, f.graphsArm)
+    f.arm.targetid = 0
+    f.arm.setup(f)  # pass framework as argument
+#    f.arm.resetArm(f, 0)
 
 # Function to run at intervals during simulation
 def runArm(t):

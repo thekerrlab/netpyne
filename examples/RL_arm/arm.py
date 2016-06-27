@@ -102,6 +102,11 @@ class Arm:
     def resetArm(self, f, t):
         
         for cell in f.net.cells:
+            soma = cell.secs['soma']
+            soma['hSection'].v = soma['pointps']['Izhi']['vr']
+            soma['pointps']['Izhi']['hPointp'].i = 0
+            soma['pointps']['Izhi']['hPointp'].u = 2*soma['hSection'].v
+            
             for stim in cell.stims:
                 if 'hRandom' in stim:
                     stim['hRandom'].Random123(cell.gid, f.sim.id32('%d'%(stim['seed'])))
