@@ -100,6 +100,13 @@ class Arm:
 
     #%% Reset arm variables so doesn't move between trials
     def resetArm(self, f, t):
+        
+        for cell in f.net.cells:
+            for stim in cell.stims:
+                if 'hRandom' in stim:
+                    stim['hRandom'].Random123(cell.gid, f.sim.id32('%d'%(stim['seed'])))
+                    stim['hRandom'].negexp(1)        
+        
         self.trial = self.trial + 1
         f.timeoflastreset = t
         self.ang = list(self.startAng) # keeps track of shoulder and elbow angles

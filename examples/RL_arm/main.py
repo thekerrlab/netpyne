@@ -70,13 +70,15 @@ f.randseed = 5  # random seed
 # reset arm every trial
 f.trialReset = True # whether to reset the arm after every trial time
 f.oneLastReset = False
+f.isTraining = False
 f.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 f.gridTrain = False
-f.trialTime = 15*1e3
-f.trainTime = 10 * f.trialTime
-f.testTime = 1 * f.trialTime
+f.trialTime = 50*1e1
+f.numTrains = 2
+f.testTime = (f.numTrains+1) * f.trialTime
+f.trainTime = f.numTrains * f.trialTime
 f.cfg['duration'] = f.trainTime + f.testTime
 f.numTrials = ceil(f.cfg['duration']/f.trialTime)
 f.numTargets = 1
@@ -92,10 +94,17 @@ if f.useArm:
 
 # Function to run at intervals during simulation
 def runArm(t):
-    # turn off RL and explor movs for last testing trial 
-    if t >= f.trainTime:
+
+    if ceil(t/f.trialTime)%2 == 1:
         f.useRL = False
         f.explorMovs = False
+    else:
+        f.useRL = False#True
+        f.explorMovs = True
+        
+    
+    # turn off RL and explor movs for last testing trial 
+    if t >= f.cfg['duration'] - f.trialTime:
         f.oneLastReset = True
 
     if f.useArm:
