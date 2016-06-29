@@ -27,6 +27,7 @@ netParams['scaleConnWeight'] = 0.001 # Connection weight scale factor
 pnum = 5
 cscale = 1
 mscale = 1
+netParams['cscale'] = cscale
 
 # Population parameters
 netParams['popParams'] = []  # create list of populations - each item will contain dict with pop params

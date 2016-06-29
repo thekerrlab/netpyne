@@ -39,6 +39,7 @@ sim.setupRecording()              # setup variables to record for each cell (spi
 sim.useArm = 1  # include arm in simulation
 sim.animArm = 0  # show arm animation
 sim.graphsArm = 0  #  plot arm graphs
+sim.saveResultsArm = 1  # export arm results
 sim.updateInterval = 20  # delay between arm updated (ms)
 sim.initArmMovement = 50  # time at which to start moving arm (ms)
 sim.armLen = [0.4634 - 0.173, 0.7169 - 0.4634] # elbow - shoulder from MSM;radioulnar - elbow from MSM;  
@@ -100,9 +101,13 @@ sim.targetid = 3 # target to train+test
 sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
 sim.resetids = []
 
+# file suffix corresponding to params
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+print sim.outFileSuffix
+
 # create Arm class and setup
 if sim.useArm:
-    sim.arm = Arm(sim.animArm, sim.graphsArm)
+    sim.arm = Arm(sim.animArm, sim.graphsArm, sim.saveResultsArm)
     sim.arm.targetid = 0
     sim.arm.setup(sim)  # pass framework as argument
 

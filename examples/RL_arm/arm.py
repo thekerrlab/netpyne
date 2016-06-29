@@ -21,9 +21,10 @@ from random import uniform, seed, sample, randint
   
 class Arm:
     #%% init
-    def __init__(self, anim, graphs): # initialize variables
+    def __init__(self, anim, graphs, saveResults): # initialize variables
         self.anim = anim # whether to show arm animation or not
         self.graphs = graphs # whether to show graphs at the end
+        self.saveResults = saveResults # whether to save data to file at the end
         self.angs_sh = []
         self.angs_el = []
 
@@ -232,6 +233,7 @@ class Arm:
     ################################
     def setup(self, f):#, nduration, loopstep, RLinterval, pc, scale, popnumbers, p): 
         self.duration = f.cfg['duration']#/1000.0 # duration in msec
+        self.tAll = [] # list with all times that runArm was called
         self.interval = f.updateInterval #/1000.0 # interval between arm updates in ,sec       
         self.RLinterval = f.RLinterval # interval between RL updates in msec
         self.minRLerror = f.minRLerror # minimum error change for RL (m)
@@ -315,7 +317,8 @@ class Arm:
     def run(self, t, f):
 
         # Append to list the the value of relevant variables for this time step (only worker0)
-        if f.rank == 0:     
+        if f.rank == 0:
+            self.tAll.append(t) # list with all timesteps
             self.handPosAll.append(list(self.handPos)) # list with all handPos
             self.handVelAll.append(list(self.handVel))  # list with all handVel
             self.angAll.append(list(self.ang)) # list with all ang
@@ -457,6 +460,22 @@ class Arm:
                 self.plotRL()
                 ion()
                 show()
+            if self.saveResults:
+                if f.trainTestID < 1:
+                    mode = 'w'
+                else:
+                    mode = 'a'
+                with open('errs'+f.outFileSuffix+'.txt',mode) as fid:
+                    fid.write('%0.0f' % f.trainTestID) # Train/test iteration
+                    for errdata in self.errorAll:
+                        fid.write('\t%0.8f' % errdata)
+                    fid.write('\n')
+                with open('armt'+f.outFileSuffix+'.txt',mode) as fid:
+                    fid.write('%0.0f' % f.trainTestID) # Train/test iteration
+                    for tdata in self.tAll:
+                        fid.write('\t%0.8f' % tdata)
+                    fid.write('\n')
+                print('Saved reaching error values and associated times...')
     
         
 
