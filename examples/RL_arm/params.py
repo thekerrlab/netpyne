@@ -339,6 +339,6 @@ simConfig['saveDpk'] = False # save to a .dpk pickled file
 
 # Analysis and plotting
 simConfig['analysis'] = {}
-simConfig['analysis']['plotRaster'] = True # Whether or not to plot a raster
+simConfig['analysis']['plotRaster'] = False # Whether or not to plot a raster
 
 
