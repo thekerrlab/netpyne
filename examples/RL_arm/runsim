@@ -1,7 +1,11 @@
 #!/bin/bash
+# Usage: runsim <numcores> <numrepeats>, e.g. runsim 2 0
 
-r=5
+# p=$1
+# r=$2
 p=2
+r=0
+
 mpiexec -n $p nrniv -python -mpi main.py
 for i in `seq 1 $r`;
 do
