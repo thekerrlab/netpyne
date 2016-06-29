@@ -18,6 +18,25 @@ sim.net.connectCells()                # create connections between cells based o
 sim.setupRecording()              # setup variables to record for each cell (spikes, V traces, etc)
 
 
+
+###############################################################################
+# Load existing data if it exists
+###############################################################################
+try:
+    print('Trying to load data from file...')
+    import pickle
+    filename = 'simdata.pkl'
+    data = pickle.load(open(filename))
+    for ce,cell in enumerate(data['net']['cells']):
+        for co,conn in enumerate(cell['conns']):
+            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
+    print('...success!')
+except Exception as E:
+    print('Data not loaded from file')
+    raise E
+    
+
+
 ###############################################################################
 # Set up virtual arm, proprioceptive/motor encoding and RL
 ###############################################################################
