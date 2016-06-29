@@ -10,7 +10,7 @@ import sys
 # Deal with command line args
 ###############################################################################
 
-sim.trainTestID = 0
+sim.trainTestID = -1    # Nonzero is a normal run. Zero is a run but with no RL.
 sim.sysArgOffset = 0
 if 'main.py' in sys.argv:
     sim.sysArgOffset = sys.argv.index('main.py')
@@ -64,7 +64,10 @@ sim.cmdtimewin = 50  # window to sum spikes of motor commands
 sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
-sim.useRL = 1
+if sim.trainTestID != 0:
+    sim.useRL = 1
+else:
+    sim.useRL = 0
 sim.timeoflastRL = -1
 sim.RLinterval = 50
 sim.minRLerror = 0.002 # minimum error change for RL (m)
