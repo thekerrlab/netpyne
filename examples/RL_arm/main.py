@@ -4,6 +4,16 @@ from arm import Arm
 from neuron import h
 from time import time, sleep
 from pylab import radians, inf, ceil
+import sys
+
+###############################################################################
+# Deal with command line args
+###############################################################################
+
+sim.trainTestID = 0
+if len(sys.argv) > 1:
+    sim.trainTestID = sys.argv[1]   # The first command line argument should be the number of the training run.
+    print("Training run: %" % sim.trainTestID)
 
 ###############################################################################
 # Set up Network
@@ -25,7 +35,7 @@ sim.setupRecording()              # setup variables to record for each cell (spi
 # Arm parameters
 sim.useArm = 1  # include arm in simulation
 sim.animArm = 0  # show arm animation
-sim.graphsArm = 1  #  plot arm graphs
+sim.graphsArm = 0  #  plot arm graphs
 sim.updateInterval = 20  # delay between arm updated (ms)
 sim.initArmMovement = 50  # time at which to start moving arm (ms)
 sim.armLen = [0.4634 - 0.173, 0.7169 - 0.4634] # elbow - shoulder from MSM;radioulnar - elbow from MSM;  
