@@ -12,11 +12,11 @@ import sys
 
 sim.trainTestID = 0
 sim.sysArgOffset = 0
-if len(sys.argv) > 1:
-    if 'main.py' in sys.argv:
-        sim.sysArgOffset = sys.argv.index('main.py')
+if 'main.py' in sys.argv:
+    sim.sysArgOffset = sys.argv.index('main.py')
+if len(sys.argv) > sim.sysArgOffset:
     sim.trainTestID = int(sys.argv[1+sim.sysArgOffset])   # The first command line argument should be the number of the training run.
-    print("Training run: %i" % sim.trainTestID)
+print("Training run: %i" % sim.trainTestID)
 
 ###############################################################################
 # Set up Network
