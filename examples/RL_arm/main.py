@@ -13,7 +13,7 @@ import sys
 sim.trainTestID = 0
 if len(sys.argv) > 1:
     sim.trainTestID = sys.argv[1]   # The first command line argument should be the number of the training run.
-    print("Training run: %" % sim.trainTestID)
+    print("Training run: %i" % sim.trainTestID)
 
 ###############################################################################
 # Set up Network
