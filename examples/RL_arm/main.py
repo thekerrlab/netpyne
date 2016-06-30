@@ -52,7 +52,7 @@ sim.setupRecording()              # setup variables to record for each cell (spi
 ###############################################################################
 
 # Arm parameters
-sim.useArm = 1  # include arm in simulation
+sim.useArm = 0  # include arm in simulation
 sim.animArm = 0  # show arm animation
 sim.graphsArm = 0  #  plot arm graphs
 sim.updateInterval = 20  # delay between arm updated (ms)
@@ -131,14 +131,14 @@ def runArm(t):
     if sim.useRL and (t - sim.timeoflastRL >= sim.RLinterval): # if time for next RL
         sim.timeoflastRL = h.t
         vec = h.Vector()
-        if sim.rank == 0:
+        if sim.rank == 0 and sim.useArm:
             critic = sim.arm.RLcritic(h.t) # get critic signal (-1, 0 or 1)
             sim.pc.broadcast(vec.from_python([critic]), 0) # convert python list to hoc vector for broadcast data received from arm
             
-        else: # other workers
+        elif sim.useArm: # other workers
             sim.pc.broadcast(vec, 0)
             critic = vec.to_python()[0]
-        if critic != 0: # if critic signal indicates punishment (-1) or reward (+1)
+        if sim.useArm and critic != 0: # if critic signal indicates punishment (-1) or reward (+1)
             print 't=',t,'- adjusting weights based on RL critic value:', critic
             for cell in sim.net.cells:
                 for conn in cell.conns:
