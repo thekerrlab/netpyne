@@ -84,34 +84,13 @@ sim.useRL = 1
 sim.timeoflastRL = -1
 sim.RLinterval = 50
 sim.minRLerror = 0.002 # minimum error change for RL (m)
-sim.targetid = 1 # initial target 
-sim.allWeights = [] # list to store weights
-sim.weightsfilename = 'weights.txt'  # file to store weights
-sim.plotWeights = 0  # plot weights
 
 # Exploratory movements
-sim.explorMovs = 1 # exploratory movements (noise to EM pop)
-sim.explorMovsRate = 100 # stim max firing rate for motor neurons of specific muscle groups to enforce explor movs
-sim.explorMovsDur = 500 # max duration of each excitation to each muscle during exploratory movments init = 1000
-sim.timeoflastexplor = -inf # time when last exploratory movement was updated
 sim.randseed = 5  # random seed
 
-# reset arm every trial
-sim.trialReset = True # whether to reset the arm after every trial time
-sim.oneLastReset = False
-sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
-sim.gridTrain = False
-sim.trialTime = 0.5*1e3
-sim.trainTime = 1 * sim.trialTime
-sim.testTime = 1 * sim.trialTime
-sim.cfg['duration'] = sim.trainTime + sim.testTime
-sim.numTrials = ceil(sim.cfg['duration']/sim.trialTime)
-sim.numTargets = 1
-sim.targetid = 3 # target to train+test
-sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
-sim.resetids = []
+sim.cfg['duration'] = 0.5*1e3
 
 
 
