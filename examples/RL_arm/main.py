@@ -126,6 +126,7 @@ try:
     for ce,cell in enumerate(data['net']['cells']):
         for co,conn in enumerate(cell['conns']):
             sim.net.cells[ce].conns[co]['weight'] = conn['weight']
+            sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
 except:
     print('No weight data has been loaded from file for this network...')
