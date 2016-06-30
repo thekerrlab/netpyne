@@ -190,3 +190,5 @@ if sim.plotWeights:
         plotWeights()
     except:
         print('Plotting/saving weights failed')
+
+if sim.trainTestID > -1: sys.exit()  # exit nrniv console in the case of sequential runs
