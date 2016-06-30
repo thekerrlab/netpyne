@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-"Minimal" example of STDP with MPI.
+"Minimal" example of STDP. NOT with MPI.
 
 @author: David Kedziora
 """
@@ -40,7 +40,7 @@ secs = []
 allcells = arange(ncells)
 for c in allcells:
     sec = h.Section() # Create a dummy section to put the point processes in
-    cell = pyramidal(sec) # Create the cells
+    cell = h.Izhi2007b(0,sec) # Create the cells
     secs.append(sec)
     cells.append(cell)
     
@@ -96,8 +96,8 @@ wvec.record(singlesyn._ref_weight[0])
 
 evec1 = h.Vector()
 evec2 = h.Vector()
-ptr1 = cells[0]._ref_V
-ptr2 = cells[1]._ref_V
+ptr1 = secs[0](0)._ref_v
+ptr2 = secs[1](0)._ref_v
 evec1.record(ptr1)
 evec2.record(ptr2)
 
