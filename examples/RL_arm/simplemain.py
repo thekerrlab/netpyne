@@ -15,6 +15,12 @@ sim.net.connectCells()                # create connections between cells based o
 sim.setupRecording()              # setup variables to record for each cell (spikes, V traces, etc)
 
 
+nconns = 0
+for cell in sim.net.cells:
+    nconns += len(cell.conns)
+
+print('Number of connections: %i' % nconns)
+
 ###############################################################################
 # Run Network with virtual arm
 ###############################################################################
