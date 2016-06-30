@@ -65,16 +65,16 @@ sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
 if sim.trainTestID != 0:
-    sim.useRL = 1
+    sim.useRL = False   # Should be True when not debugging...
 else:
-    sim.useRL = 0
+    sim.useRL = False
 sim.timeoflastRL = -1
 sim.RLinterval = 50
 sim.minRLerror = 0.002 # minimum error change for RL (m)
 sim.targetid = 1 # initial target 
 sim.allWeights = [] # list to store weights
 sim.weightsfilename = 'weights.txt'  # file to store weights
-sim.plotWeights = 1  # plot weights
+sim.plotWeights = 0  # plot weights
 
 # Exploratory movements
 sim.explorMovs = 1 # exploratory movements (noise to EM pop)
@@ -213,6 +213,7 @@ sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neu
 # Update cell-conn data with final weights.
 for cell in sim.net.cells:
     for conn in cell.conns:
+        print('%f vs %f' % (conn['weight'], conn['hNetcon'].weight[0]))
         conn['weight'] = conn['hNetcon'].weight[0]
 
 sim.gatherData()                  # gather spiking data and cell info from each node
