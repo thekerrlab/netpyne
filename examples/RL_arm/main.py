@@ -65,7 +65,7 @@ sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
 if sim.trainTestID != 0:
-    sim.useRL = False   # Should be True when not debugging...
+    sim.useRL = True   # Should be True when not debugging...
 else:
     sim.useRL = False
 sim.timeoflastRL = -1
@@ -90,13 +90,13 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 1*1e3
+sim.trialTime = 15*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
 sim.numTrials = ceil(sim.cfg['duration']/sim.trialTime)
 sim.numTargets = 1
-sim.targetid = 3 # target to train+test
+sim.targetid = 2 # target to train+test
 sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
 sim.resetids = []
 
@@ -213,7 +213,7 @@ sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neu
 # Update cell-conn data with final weights.
 for cell in sim.net.cells:
     for conn in cell.conns:
-        print('%f vs %f' % (conn['weight'], conn['hNetcon'].weight[0]))
+#        print('%f vs %f' % (conn['weight'], conn['hNetcon'].weight[0]))
         conn['weight'] = conn['hNetcon'].weight[0]
 
 sim.gatherData()                  # gather spiking data and cell info from each node
