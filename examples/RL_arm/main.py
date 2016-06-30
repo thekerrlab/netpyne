@@ -119,9 +119,82 @@ if sim.useArm:
     sim.arm.targetid = 0
     sim.arm.setup(sim)  # pass framework as argument
 
+# Function to run at intervals during simulation
+def runArm(t):
+    # turn off RL and explor movs for last testing trial 
+    if t >= sim.trainTime:
+        sim.useRL = False
+        sim.explorMovs = False
+
+    if sim.useArm:
+        sim.arm.run(t, sim) # run virtual arm apparatus (calculate command, move arm, feedback)
+    if sim.useRL and (t - sim.timeoflastRL >= sim.RLinterval): # if time for next RL
+        sim.timeoflastRL = h.t
+        vec = h.Vector()
+        if sim.rank == 0 and sim.useArm:
+            critic = sim.arm.RLcritic(h.t) # get critic signal (-1, 0 or 1)
+            sim.pc.broadcast(vec.from_python([critic]), 0) # convert python list to hoc vector for broadcast data received from arm
+            
+        elif sim.useArm: # other workers
+            sim.pc.broadcast(vec, 0)
+            critic = vec.to_python()[0]
+        if sim.useArm and critic != 0: # if critic signal indicates punishment (-1) or reward (+1)
+            print 't=',t,'- adjusting weights based on RL critic value:', critic
+            for cell in sim.net.cells:
+                for conn in cell.conns:
+                    STDPmech = conn.get('hSTDP')  # check if has STDP mechanism
+                    if STDPmech:   # run stdp.mod method to update syn weights based on RLprint cell.gid
+                        STDPmech.reward_punish(float(critic))
+
+        # store weight changes
+        sim.allWeights.append([]) # Save this time
+        for cell in sim.net.cells:
+            for conn in cell.conns:
+                if 'hSTDP' in conn:
+                    sim.allWeights[-1].append(float(conn['hNetcon'].weight[0])) # save weight only for STDP conns
+
+    
+    
+def saveWeights(sim):
+    ''' Save the weights for each plastic synapse '''
+    with open(sim.weightsfilename,'w') as fid:
+        for weightdata in sim.allWeights:
+            fid.write('%0.0f' % weightdata[0]) # Time
+            for i in range(1,len(weightdata)): fid.write('\t%0.8f' % weightdata[i])
+            fid.write('\n')
+    print('Saved weights as %s' % sim.weightsfilename)    
+
+
+def plotWeights():
+    from pylab import figure, loadtxt, xlabel, ylabel, xlim, ylim, show, pcolor, array, colorbar
+
+    figure()
+    weightdata = loadtxt(sim.weightsfilename)
+    weightdataT=map(list, zip(*weightdata))
+    vmax = max([max(row) for row in weightdata])
+    vmin = min([min(row) for row in weightdata])
+    pcolor(array(weightdataT), cmap='hot_r', vmin=vmin, vmax=vmax)
+    xlim((0,len(weightdata)))
+    ylim((0,len(weightdata[0])))
+    xlabel('Time (weight updates)')
+    ylabel('Synaptic connection id')
+    colorbar()
+    show()
+    
+
 ###############################################################################
 # Run Network with virtual arm
 ###############################################################################
 
-sim.runSim()        # run parallel Neuron simulation  
+sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation  
 sim.gatherData()                  # gather spiking data and cell info from each node
+sim.saveData()                    # save params, cell info and sim output to file (pickle,mat,txt,etc)
+sim.analysis.plotData()               # plot spike raster
+if sim.useArm: sim.arm.close(sim)
+
+if sim.plotWeights:
+    try:
+        saveWeights(sim) 
+        plotWeights()
+    except:
+        print('Plotting/saving weights failed')
