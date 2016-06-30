@@ -30,7 +30,6 @@ sim.net.createCells()                 # instantiate network cells based on defin
 sim.net.connectCells()                # create connections between cells based on params
 sim.setupRecording()              # setup variables to record for each cell (spikes, V traces, etc)
 
-
 ###############################################################################
 # Set up virtual arm, proprioceptive/motor encoding and RL
 ###############################################################################
@@ -103,7 +102,37 @@ sim.resetids = []
 
 # file suffix corresponding to params
 sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
-print sim.outFileSuffix
+print 'File suffix: ' + sim.outFileSuffix
+
+###############################################################################
+# Overwrite network weights from file if it exists
+###############################################################################
+
+netWeightsFilename = 'netWeights' + sim.outFileSuffix + '.pkl'
+params.simConfig['filename'] = 'netWeights' + sim.outFileSuffix     # Overwrite params filename.
+
+# An initial run in a runsim bash sequence resets netWeights file.
+if sim.trainTestID == 0:
+    from os import remove
+    try:
+        remove(netWeightsFilename)
+    except:
+        pass
+
+print('Trying to load net weights from file...')
+try:
+    import pickle
+    data = pickle.load(open(netWeightsFilename))
+    for ce,cell in enumerate(data['net']['cells']):
+        for co,conn in enumerate(cell['conns']):
+            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
+    print('...success!')
+except:
+    print('No weight data has been loaded from file for this network...')
+
+###############################################################################
+# Continue setup
+###############################################################################
 
 # create Arm class and setup
 if sim.useArm:
