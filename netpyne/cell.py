@@ -525,7 +525,7 @@ class Cell (object):
         plasticity = params.get('plasticity')
         if plasticity and sim.cfg['createNEURONObj']:
             try:
-                plastSection = self.secs[self.gid]
+                plastSection = self.secs['soma']['hSection']
                 plastMech = getattr(h, plasticity['mech'], None)(0, sec=plastSection)  # create plasticity mechanism (eg. h.STDP)
                 for plastParamName,plastParamValue in plasticity['params'].iteritems():  # add params of the plasticity mechanism
                     setattr(plastMech, plastParamName, plastParamValue)
@@ -539,8 +539,8 @@ class Cell (object):
                     self.conns[-1]['hSTDPpstcon']   = pstcon
                     self.conns[-1]['STDPdata']      = {'preGid':params['preGid'], 'postGid': self.gid, 'receptor': weightIndex} # Not used; FYI only; store here just so it's all in one place
                     if sim.cfg['verbose']: print('  Added STDP plasticity to synaptic mechanism')
-            except:
-                print 'Error: exception when adding plasticity using %s mechanism' % (plasticity['mech'])
+            except Exception as E:
+                print('Error: exception when adding plasticity using %s mechanism: "%s"' % (plasticity['mech'], E.__repr__()))
 
 
     def recordTraces (self):
