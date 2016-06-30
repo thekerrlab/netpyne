@@ -53,12 +53,12 @@ delay = 1 # Set connection delay
 singlesyn = h.NetCon(cells[0],cells[1], threshold, delay, 0.5) # Create a connection between the cells
 #singlesyn.weight[1]=10
 singlesyn.weight[0]=10
-stdpmech = h.STDP(0,sec=dummy) # Create the STDP mechanism
-stdpmech.verbose = 0.0
+#stdpmech = h.STDP(0,sec=dummy) # Create the STDP mechanism
+#stdpmech.verbose = 0.0
 delay = 1 # Set connection delay
-presyn = h.NetCon(cells[0],stdpmech, threshold, delay, 1) # Feed presynaptic spikes to the STDP mechanism -- must have weight >0
-pstsyn = h.NetCon(cells[1],stdpmech, threshold, delay, -1) # Feed postsynaptic spikes to the STDP mechanism -- must have weight <0
-h.setpointer(singlesyn._ref_weight[0],'synweight',stdpmech) # Point the STDP mechanism to the connection weight
+#presyn = h.NetCon(cells[0],stdpmech, threshold, delay, 1) # Feed presynaptic spikes to the STDP mechanism -- must have weight >0
+#pstsyn = h.NetCon(cells[1],stdpmech, threshold, delay, -1) # Feed postsynaptic spikes to the STDP mechanism -- must have weight <0
+#h.setpointer(singlesyn._ref_weight[0],'synweight',stdpmech) # Point the STDP mechanism to the connection weight
 
 source = h.NetStim()                    # Create a NetStim
 source.interval = 1#(float(50)/1e3)**-1   # Interval between spikes
