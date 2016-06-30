@@ -6,7 +6,7 @@ Created on Mon Mar 14 08:58:47 2016
 """
 
 from neuron import h, init, run
-from pylab import figure, plot, ylim, show, array
+from pylab import figure, plot, show, array
 
 duration = 400
 which = 'izhi2007b' # Choices are: izhi, izhi2007b, intfire4
@@ -68,7 +68,7 @@ source.noise = 1                        # Fractional noise in timing
 source.start = 25                       # Delay 
         
 connection = h.NetCon(source, cells[0])
-connection.weight[0] = 100
+connection.weight[0] = 1
 
 
 
@@ -81,8 +81,10 @@ wvec.record(singlesyn._ref_weight[0])
 evec1 = h.Vector()
 evec2 = h.Vector()
 if which=='izhi2007b':
-    ptr1 = seclist[0](0.5)._ref_v
-    ptr2 = seclist[1](0.5)._ref_v
+#    ptr1 = seclist[0](0.5)._ref_v
+#    ptr2 = seclist[1](0.5)._ref_v
+    ptr1 = cells[0]._ref_v
+    ptr2 = cells[1]._ref_v
 if which=='izhi':
     ptr1 = cells[0]._ref_V
     ptr2 = cells[1]._ref_V
