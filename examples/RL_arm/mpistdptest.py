@@ -9,7 +9,7 @@ from neuron import h, init, run
 from pylab import figure, plot, show, array, rand, arange
 from optima import tic, toc
 
-duration = 2000
+duration = 4000
 ncells = 200
 connprob = 0.1
 
