@@ -9,9 +9,11 @@ from neuron import h, init, run
 from pylab import figure, plot, show, array, rand, arange
 from optima import tic, toc
 
-duration = 2000
-ncells = 10
+duration = 1000
+ncells = 1000
 connprob = 0.1
+h.dt = 0.5
+
 
 ## Create basic Izhikevich neuron with default parameters. Not to be called directly, only via one of the other functions.
 def createcell(sec, C, k, vr, vt, vpeak, a, b, c, d, celltype, cellid):
