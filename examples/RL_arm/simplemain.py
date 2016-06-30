@@ -1,10 +1,5 @@
-import params  # import parameters file
+import simpleparams  # import parameters file
 from netpyne import sim  # import netpyne init module
-from arm import Arm
-from neuron import h
-from time import time, sleep
-from pylab import radians, inf, ceil
-import sys
 
 
 ###############################################################################
@@ -12,17 +7,12 @@ import sys
 ###############################################################################
 
 sim.initialize(                
-      simConfig = params.simConfig, 
-      netParams = params.netParams)  
+      simConfig = simpleparams.simConfig, 
+      netParams = simpleparams.netParams)  
 sim.net.createPops()                  # instantiate network populations
 sim.net.createCells()                 # instantiate network cells based on defined populations
 sim.net.connectCells()                # create connections between cells based on params
 sim.setupRecording()              # setup variables to record for each cell (spikes, V traces, etc)
-
-
-# train/test params
-sim.cfg['duration'] = 0.5*1e3
-
 
 
 ###############################################################################
