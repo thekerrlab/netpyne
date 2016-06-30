@@ -11,7 +11,7 @@ from optima import tic, toc
 
 duration = 1000
 ncells = 1000
-connprob = 0.1
+connprob = 0.2
 h.dt = 0.5
 
 
