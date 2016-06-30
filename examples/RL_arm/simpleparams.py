@@ -307,7 +307,7 @@ simConfig = {}  # dictionary to store simConfig
 
 # Simulation parameters
 simConfig['duration'] = 0.5*1e3 # Duration of the simulation, in ms
-simConfig['dt'] = 0.1 # Internal integration timestep to use
+simConfig['dt'] = 0.5 # Internal integration timestep to use
 simConfig['seeds'] = {'conn': 1, 'stim': 1, 'loc': 1} # Seeds for randomizers (connectivity, input stimulation and cell locations)
 simConfig['createNEURONObj'] = True  # create HOC objects when instantiating network
 simConfig['createPyStruct'] = True  # create Python structure (simulator-independent) when instantiating network
@@ -324,7 +324,7 @@ simConfig['recordTraces'] = {}
 #     'NMDA_i': {'sec':'soma', 'loc':0.5, 'synMech':'NMDA', 'var':'i'},
 #     'GABA_g': {'sec':'soma', 'loc':0.5, 'synMech':'GABA', 'var':'g'},
 #     'GABA_i': {'sec':'soma', 'loc':0.5, 'synMech':'GABA', 'var':'i'}}
-simConfig['recordStim'] = True  # record spikes of cell stims
+simConfig['recordStim'] = False  # record spikes of cell stims
 simConfig['recordStep'] = 1.0 # Step size in ms to save data (eg. V traces, LFP, etc)
 
 # Saving
