@@ -74,7 +74,7 @@ sim.minRLerror = 0.002 # minimum error change for RL (m)
 sim.targetid = 1 # initial target 
 sim.allWeights = [] # list to store weights
 sim.weightsfilename = 'weights.txt'  # file to store weights
-sim.plotWeights = 0  # plot weights
+sim.plotWeights = 1  # plot weights
 
 # Exploratory movements
 sim.explorMovs = 1 # exploratory movements (noise to EM pop)
@@ -208,7 +208,13 @@ def plotWeights():
 # Run Network with virtual arm
 ###############################################################################
 
-sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation  
+sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation
+
+# Update cell-conn data with final weights.
+for cell in sim.net.cells:
+    for conn in cell.conns:
+        conn['weight'] = conn['hNetcon'].weight[0]
+
 sim.gatherData()                  # gather spiking data and cell info from each node
 sim.saveData()                    # save params, cell info and sim output to file (pickle,mat,txt,etc)
 sim.analysis.plotData()               # plot spike raster
