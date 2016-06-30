@@ -133,170 +133,171 @@ netParams['connParams'].append(
     'synMech': 'NMDA'})  
 
 
-# Sensory
+## Sensory
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': ['Psh', 'Pel']}, 'postTags': {'popLabel': 'ES'},  # P_sh,P_el -> ES
+#    'weight': 4,      
+#    'probability': 0.1125,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'ES'},  # ES -> ES  (plastic)
+#    'weight': 1.98,      
+#    'probability': 0.05625,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'IS'},  # ES -> IS (plastic)
+#    'weight': 0.48375,      
+#    'probability': 1.150,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'ISL'},  # ES -> ISL (plastic)
+#    'weight': 0.57375,      
+#    'probability': 0.575,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'EM'},  # ES -> EM (plastic)
+#    'weight': 2.640,      
+#    'probability': 0.33750,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'ES'},  # IS -> ES
+#    'weight': 4.5,      
+#    'probability': 0.495,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'IS'},  # IS -> IS
+#    'weight': 4.5,      
+#    'probability': 0.69750,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'ISL'},  # IS -> ISL
+#    'weight': 4.5,      
+#    'probability': 0.38250,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'IS'},  # ISL -> ES
+#    'weight': 2.25,      
+#    'probability': 0.39375,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'IS'},  # ISL -> IS
+#    'weight': 2.25,      
+#    'probability': 0.59625,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'ISL'},  # ISL -> ISL
+#    'weight': 4.5,      
+#    'probability': 0.10125,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'ES'},  # EM -> ES (plastic)
+#    'weight': 0.72,      
+#    'probability': 0.01125,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#
+## Motor
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'EM'},  # EM -> EM (plastic)
+#    'weight': 1.782,      
+#    'probability': 0.05625,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'IM'},  # EM -> IM (plastic)
+#    'weight': 1.15,      
+#    'probability': 0.48375,          
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'IML'},  # EM -> IML (plastic)
+#    'weight': 0.575,      
+#    'probability': 0.57375,              
+#    'delay': 5,     
+#    'synMech': 'AMPA',
+#    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'EM'},  # IM -> EM
+#    'weight': 9,      
+#    'probability': 0.495,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'IM'},  # IM -> IM
+#    'weight': 4.5,      
+#    'probability': 0.69750,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'IML'},  # IM -> IML 
+#    'weight': 4.5,      
+#    'probability': 0.38250,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'EM'},  # IML -> EM 
+#    'weight': 2.49,      
+#    'probability': 0.39375,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'IM'},  # IML -> IM 
+#    'weight': 2.25,      
+#    'probability': 0.59625,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
+#
+#netParams['connParams'].append(
+#    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'IML'},  # IML -> IML
+#    'weight': 4.5,      
+#    'probability': 0.10125,              
+#    'delay': 5,     
+#    'synMech': 'GABA'}) 
 
-netParams['connParams'].append(
-    {'preTags': {'popLabel': ['Psh', 'Pel']}, 'postTags': {'popLabel': 'ES'},  # P_sh,P_el -> ES
-    'weight': 4,      
-    'probability': 0.1125,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'ES'},  # ES -> ES  (plastic)
-    'weight': 1.98,      
-    'probability': 0.05625,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'IS'},  # ES -> IS (plastic)
-    'weight': 0.48375,      
-    'probability': 1.150,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'ISL'},  # ES -> ISL (plastic)
-    'weight': 0.57375,      
-    'probability': 0.575,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ES'}, 'postTags': {'popLabel': 'EM'},  # ES -> EM (plastic)
-    'weight': 2.640,      
-    'probability': 0.33750,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'ES'},  # IS -> ES
-    'weight': 4.5,      
-    'probability': 0.495,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'IS'},  # IS -> IS
-    'weight': 4.5,      
-    'probability': 0.69750,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IS'}, 'postTags': {'popLabel': 'ISL'},  # IS -> ISL
-    'weight': 4.5,      
-    'probability': 0.38250,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'IS'},  # ISL -> ES
-    'weight': 2.25,      
-    'probability': 0.39375,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'IS'},  # ISL -> IS
-    'weight': 2.25,      
-    'probability': 0.59625,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'ISL'}, 'postTags': {'popLabel': 'ISL'},  # ISL -> ISL
-    'weight': 4.5,      
-    'probability': 0.10125,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'ES'},  # EM -> ES (plastic)
-    'weight': 0.72,      
-    'probability': 0.01125,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-
-# Motor
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'EM'},  # EM -> EM (plastic)
-    'weight': 1.782,      
-    'probability': 0.05625,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'IM'},  # EM -> IM (plastic)
-    'weight': 1.15,      
-    'probability': 0.48375,          
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}})
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'EM'}, 'postTags': {'popLabel': 'IML'},  # EM -> IML (plastic)
-    'weight': 0.575,      
-    'probability': 0.57375,              
-    'delay': 5,     
-    'synMech': 'AMPA',
-    'plasticity': {'mech': 'STDP', 'params': STDPparams}}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'EM'},  # IM -> EM
-    'weight': 9,      
-    'probability': 0.495,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'IM'},  # IM -> IM
-    'weight': 4.5,      
-    'probability': 0.69750,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IM'}, 'postTags': {'popLabel': 'IML'},  # IM -> IML 
-    'weight': 4.5,      
-    'probability': 0.38250,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'EM'},  # IML -> EM 
-    'weight': 2.49,      
-    'probability': 0.39375,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'IM'},  # IML -> IM 
-    'weight': 2.25,      
-    'probability': 0.59625,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
-
-netParams['connParams'].append(
-    {'preTags': {'popLabel': 'IML'}, 'postTags': {'popLabel': 'IML'},  # IML -> IML
-    'weight': 4.5,      
-    'probability': 0.10125,              
-    'delay': 5,     
-    'synMech': 'GABA'}) 
 
 
 ###############################################################################
