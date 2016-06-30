@@ -9,7 +9,7 @@ from neuron import h, init, run
 from pylab import figure, plot, ylim, show, array
 
 duration = 400
-which = 'izhi' # Choices are: izhi, izhi2007b, intfire4
+which = 'izhi2007b' # Choices are: izhi, izhi2007b, intfire4
 
 ## Create basic Izhikevich neuron with default parameters. Not to be called directly, only via one of the other functions.
 def createcell(section, C, k, vr, vt, vpeak, a, b, c, d, celltype, cellid):
@@ -45,6 +45,8 @@ for c in range(ncells):
 
 
 
+#if which=='izhi2007b':
+#    cells[0].Iin = 70000  # current clamp
 
 ## Create synapses
 threshold = 40 # Set voltage threshold
@@ -66,7 +68,7 @@ source.noise = 1                        # Fractional noise in timing
 source.start = 25                       # Delay 
         
 connection = h.NetCon(source, cells[0])
-connection.weight[0] = 1
+connection.weight[0] = 100
 
 
 
