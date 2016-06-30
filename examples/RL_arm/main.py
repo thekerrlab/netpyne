@@ -190,7 +190,7 @@ sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neu
 sim.gatherData()                  # gather spiking data and cell info from each node
 sim.saveData()                    # save params, cell info and sim output to file (pickle,mat,txt,etc)
 sim.analysis.plotData()               # plot spike raster
-if sim.useARm: sim.arm.close(sim)
+if sim.useArm: sim.arm.close(sim)
 
 if sim.plotWeights:
     try:

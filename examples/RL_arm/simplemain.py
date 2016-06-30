@@ -1,4 +1,4 @@
-import params  # import parameters file
+import simpleparams  # import parameters file
 from netpyne import sim  # import netpyne init module
 from arm import Arm
 from neuron import h
@@ -20,8 +20,8 @@ if len(sys.argv) > 1:
 ###############################################################################
 
 sim.initialize(                
-      simConfig = params.simConfig, 
-      netParams = params.netParams)  
+      simConfig = simpleparams.simConfig, 
+      netParams = simpleparams.netParams)  
 sim.net.createPops()                  # instantiate network populations
 sim.net.createCells()                 # instantiate network cells based on defined populations
 sim.net.connectCells()                # create connections between cells based on params
@@ -190,7 +190,7 @@ sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neu
 sim.gatherData()                  # gather spiking data and cell info from each node
 sim.saveData()                    # save params, cell info and sim output to file (pickle,mat,txt,etc)
 sim.analysis.plotData()               # plot spike raster
-if sim.useARm: sim.arm.close(sim)
+if sim.useArm: sim.arm.close(sim)
 
 if sim.plotWeights:
     try:
