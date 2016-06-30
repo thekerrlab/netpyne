@@ -8,7 +8,7 @@ Created on Mon Mar 14 08:58:47 2016
 from neuron import h, init, run
 from pylab import figure, plot, ylim, show, array
 
-duration = 40000
+duration = 400
 
 ## Create basic Izhikevich neuron with default parameters. Not to be called directly, only via one of the other functions.
 def createcell(section, C, k, vr, vt, vpeak, a, b, c, d, celltype, cellid):
@@ -38,9 +38,9 @@ seclist = []
 #for c in range(ncells): cells.append(h.IntFire4(0,sec=dummy)) # Create the cells
 for c in range(ncells):
     dummy = h.Section() # Create a dummy section to put the point processes in
-    cells.append(pyramidal(section=dummy)) # Create the cells
+#    cells.append(pyramidal(section=dummy)) # Create the cells
 #    cells.append(h.Izhi2007b(0,sec=dummy)) # Create the cells
-#    cells.append(h.IntFire4(0,sec=dummy)) # Create the cells
+    cells.append(h.IntFire4(0,sec=dummy)) # Create the cells
     seclist.append(dummy)
 
 
@@ -80,8 +80,10 @@ evec1 = h.Vector()
 evec2 = h.Vector()
 #ptr1 = seclist[0](0.5)._ref_v
 #ptr2 = seclist[1](0.5)._ref_v
-ptr1 = cells[0]._ref_V
-ptr2 = cells[1]._ref_V
+#ptr1 = cells[0]._ref_V
+#ptr2 = cells[1]._ref_V
+ptr1 = cells[0]._ref_m
+ptr2 = cells[1]._ref_m
 evec1.record(ptr1)
 evec2.record(ptr2)
 
