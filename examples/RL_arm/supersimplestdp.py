@@ -7,8 +7,9 @@ Created on Mon Mar 14 08:58:47 2016
 
 from neuron import h, init, run
 from pylab import figure, plot, ylim, show, array
+from optima import tic, toc
 
-duration = 400
+duration = 40000
 
 ## Create basic Izhikevich neuron with default parameters. Not to be called directly, only via one of the other functions.
 def createcell(section, C, k, vr, vt, vpeak, a, b, c, d, celltype, cellid):
@@ -53,7 +54,7 @@ singlesyn = h.NetCon(cells[0],cells[1], threshold, delay, 0.5) # Create a connec
 #singlesyn.weight[1]=10
 singlesyn.weight[0]=10
 stdpmech = h.STDP(0,sec=dummy) # Create the STDP mechanism
-stdpmech.verbose = 1.0
+stdpmech.verbose = 0.0
 delay = 1 # Set connection delay
 presyn = h.NetCon(cells[0],stdpmech, threshold, delay, 1) # Feed presynaptic spikes to the STDP mechanism -- must have weight >0
 pstsyn = h.NetCon(cells[1],stdpmech, threshold, delay, -1) # Feed postsynaptic spikes to the STDP mechanism -- must have weight <0
@@ -85,8 +86,12 @@ ptr2 = cells[1]._ref_V
 evec1.record(ptr1)
 evec2.record(ptr2)
 
+t = tic()
+
 init()
 run(duration)
+
+toc(t)
 
 figure(1)
 plot(array(tvec),array(wvec),'r')
