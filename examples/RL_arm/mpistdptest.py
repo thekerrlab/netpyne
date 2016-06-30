@@ -12,7 +12,7 @@ from optima import tic, toc
 duration = 1000
 ncells = 1000
 connprob = 0.1
-h.dt = 0.5
+h.dt = 0.1
 
 
 ## Create basic Izhikevich neuron with default parameters. Not to be called directly, only via one of the other functions.
