@@ -101,7 +101,7 @@ sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in rang
 sim.resetids = []
 
 # file suffix corresponding to params
-sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][stdp%i][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'], params.netParams['STDPon'], params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
 print 'File suffix: ' + sim.outFileSuffix
 
 ###############################################################################
@@ -116,28 +116,20 @@ if sim.trainTestID == 0:
     from os import remove
     try:
         remove(netWeightsFilename)
-        print('Removed %s' % netWeightsFilename)
     except:
         pass
 
 print('Trying to load net weights from file...')
-dataloaded = False
 try:
     import pickle
     data = pickle.load(open(netWeightsFilename))
-    dataloaded = True
-except Exception as E:
-    print('No weight data has been loaded for this network')
-    print(E)
-if dataloaded:
-    allgids = [data['net']['cells'][i]['gid'] for i in range(len(data['net']['cells']))]
-    for lid,gid in enumerate(sim.net.lid2gid):
-        datacell = data['net']['cells'][allgids.index(gid)] # DOESN'T WORK because data['net']['cells'][gid]['gid'] is NOT gid
-        simcell = sim.net.cells[lid]
-        for co,conn in enumerate(datacell['conns']):
-            simcell.conns[co]['weight'] = conn['weight']
-            simcell.conns[co]['hNetcon'].weight[0] = conn['weight']
+    for ce,cell in enumerate(data['net']['cells']):
+        for co,conn in enumerate(cell['conns']):
+            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
+            sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
+except:
+    print('No weight data has been loaded from file for this network...')
 
 ###############################################################################
 # Continue setup
@@ -236,4 +228,4 @@ if sim.plotWeights:
     except:
         print('Plotting/saving weights failed')
 
-if sim.trainTestID > -1: sys.exit()  # exit nrniv console in the case of sequential runs
+if sim.trainTestID > -1: h.quit()  # exit nrniv console in the case of sequential runs
