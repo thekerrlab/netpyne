@@ -10,10 +10,13 @@ import sys
 # Deal with command line args
 ###############################################################################
 
-sim.trainTestID = 0
-if len(sys.argv) > 1:
-    sim.trainTestID = int(sys.argv[1])   # The first command line argument should be the number of the training run.
-    print("Training run: %i" % sim.trainTestID)
+sim.trainTestID = -1    # Nonzero is a normal run. Zero is a run but with no RL.
+sim.sysArgOffset = 0
+if 'main.py' in sys.argv:
+    sim.sysArgOffset = sys.argv.index('main.py')
+if len(sys.argv) > sim.sysArgOffset+1:
+    sim.trainTestID = int(sys.argv[1+sim.sysArgOffset])   # The first command line argument should be the number of the training run.
+print("Training run: %i" % sim.trainTestID)
 
 ###############################################################################
 # Set up Network
@@ -27,26 +30,6 @@ sim.net.createCells()                 # instantiate network cells based on defin
 sim.net.connectCells()                # create connections between cells based on params
 sim.setupRecording()              # setup variables to record for each cell (spikes, V traces, etc)
 
-
-
-###############################################################################
-# Load existing data if it exists
-###############################################################################
-try:
-    print('Trying to load data from file...')
-    import pickle
-    filename = 'simdata.pkl'
-    data = pickle.load(open(filename))
-    for ce,cell in enumerate(data['net']['cells']):
-        for co,conn in enumerate(cell['conns']):
-            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
-    print('...success!')
-except Exception as E:
-    print('Data not loaded from file')
-    raise E
-    
-
-
 ###############################################################################
 # Set up virtual arm, proprioceptive/motor encoding and RL
 ###############################################################################
@@ -55,6 +38,7 @@ except Exception as E:
 sim.useArm = 1  # include arm in simulation
 sim.animArm = 0  # show arm animation
 sim.graphsArm = 0  #  plot arm graphs
+sim.saveResultsArm = 1  # export arm results
 sim.updateInterval = 20  # delay between arm updated (ms)
 sim.initArmMovement = 50  # time at which to start moving arm (ms)
 sim.armLen = [0.4634 - 0.173, 0.7169 - 0.4634] # elbow - shoulder from MSM;radioulnar - elbow from MSM;  
@@ -80,7 +64,10 @@ sim.cmdtimewin = 50  # window to sum spikes of motor commands
 sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
-sim.useRL = 1
+if sim.trainTestID != 0:
+    sim.useRL = True   # Should be True when not debugging...
+else:
+    sim.useRL = False
 sim.timeoflastRL = -1
 sim.RLinterval = 50
 sim.minRLerror = 0.002 # minimum error change for RL (m)
@@ -103,19 +90,54 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 0.5*1e3
+sim.trialTime = 15*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
 sim.numTrials = ceil(sim.cfg['duration']/sim.trialTime)
 sim.numTargets = 1
-sim.targetid = 3 # target to train+test
+sim.targetid = 2 # target to train+test
 sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
 sim.resetids = []
 
+# file suffix corresponding to params
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+print 'File suffix: ' + sim.outFileSuffix
+
+###############################################################################
+# Overwrite network weights from file if it exists
+###############################################################################
+
+netWeightsFilename = 'netWeights' + sim.outFileSuffix + '.pkl'
+params.simConfig['filename'] = 'netWeights' + sim.outFileSuffix     # Overwrite params filename.
+
+# An initial run in a runsim bash sequence resets netWeights file.
+if sim.trainTestID == 0:
+    from os import remove
+    try:
+        remove(netWeightsFilename)
+    except:
+        pass
+
+print('Trying to load net weights from file...')
+try:
+    import pickle
+    data = pickle.load(open(netWeightsFilename))
+    for ce,cell in enumerate(data['net']['cells']):
+        for co,conn in enumerate(cell['conns']):
+            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
+            sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
+    print('...success!')
+except:
+    print('No weight data has been loaded from file for this network...')
+
+###############################################################################
+# Continue setup
+###############################################################################
+
 # create Arm class and setup
 if sim.useArm:
-    sim.arm = Arm(sim.animArm, sim.graphsArm)
+    sim.arm = Arm(sim.animArm, sim.graphsArm, sim.saveResultsArm)
     sim.arm.targetid = 0
     sim.arm.setup(sim)  # pass framework as argument
 
@@ -186,7 +208,14 @@ def plotWeights():
 # Run Network with virtual arm
 ###############################################################################
 
-sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation  
+sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation
+
+# Update cell-conn data with final weights.
+for cell in sim.net.cells:
+    for conn in cell.conns:
+#        print('%f vs %f' % (conn['weight'], conn['hNetcon'].weight[0]))
+        conn['weight'] = conn['hNetcon'].weight[0]
+
 sim.gatherData()                  # gather spiking data and cell info from each node
 sim.saveData()                    # save params, cell info and sim output to file (pickle,mat,txt,etc)
 sim.analysis.plotData()               # plot spike raster
@@ -198,3 +227,5 @@ if sim.plotWeights:
         plotWeights()
     except:
         print('Plotting/saving weights failed')
+
+if sim.trainTestID > -1: sys.exit()  # exit nrniv console in the case of sequential runs

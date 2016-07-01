@@ -27,6 +27,7 @@ netParams['scaleConnWeight'] = 0.001 # Connection weight scale factor
 pnum = 5
 cscale = 1
 mscale = 1
+netParams['cscale'] = cscale
 
 # Population parameters
 netParams['popParams'] = []  # create list of populations - each item will contain dict with pop params
@@ -91,7 +92,7 @@ netParams['synMechParams'].append({'label': 'GABA', 'mod': 'Exp2Syn', 'tau1': 0.
 # STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.000013, 'wmax': 50, 'RLon': 1 , 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
 #     'tauhebb': 10, 'RLwindhebb': 50, 'useRLexp': 1, 'softthresh': 0, 'verbose':1}
 
-STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.00001, 'wmax': 50, 'RLon': 1 , 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
+STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.00001, 'wmax': 50, 'RLon': 1, 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
     'tauhebb': 10, 'RLwindhebb': 50, 'useRLexp': 0, 'softthresh': 0, 'verbose':0}
 
 netParams['connParams'] = []  
@@ -307,7 +308,7 @@ simConfig = {}  # dictionary to store simConfig
 
 # Simulation parameters
 simConfig['duration'] = 1*1e3 # Duration of the simulation, in ms
-simConfig['dt'] = 0.1 # Internal integration timestep to use
+simConfig['dt'] = 0.2 # Internal integration timestep to use
 simConfig['seeds'] = {'conn': 1, 'stim': 1, 'loc': 1} # Seeds for randomizers (connectivity, input stimulation and cell locations)
 simConfig['createNEURONObj'] = True  # create HOC objects when instantiating network
 simConfig['createPyStruct'] = True  # create Python structure (simulator-independent) when instantiating network
@@ -328,7 +329,7 @@ simConfig['recordStim'] = True  # record spikes of cell stims
 simConfig['recordStep'] = 1.0 # Step size in ms to save data (eg. V traces, LFP, etc)
 
 # Saving
-simConfig['filename'] = 'simdata'  # Set file output name
+simConfig['filename'] = 'netWeights'  # Set file output name
 simConfig['saveFileStep'] = 1000 # step size in ms to save data to disk
 simConfig['savePickle'] = True # Whether or not to write spikes etc. to a .mat file
 simConfig['saveJson'] = False # Whether or not to write spikes etc. to a .mat file
