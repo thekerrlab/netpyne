@@ -90,7 +90,7 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 15*1e3
+sim.trialTime = 1*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
@@ -126,6 +126,7 @@ try:
     data = pickle.load(open(netWeightsFilename))
     for ce,cell in enumerate(data['net']['cells']):
         for co,conn in enumerate(cell['conns']):
+            conn['weight'] = 0.0
             sim.net.cells[ce].conns[co]['weight'] = conn['weight']
             sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
