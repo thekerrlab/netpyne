@@ -116,6 +116,7 @@ if sim.trainTestID == 0:
     from os import remove
     try:
         remove(netWeightsFilename)
+        print('Removed %s' % netWeightsFilename)
     except:
         pass
 
