@@ -1,10 +1,11 @@
 #!/bin/bash
 
 r=100
-p=1
-mpiexec -n $p nrniv -python -mpi main.py 0
+p=4
+s=2
+mpiexec -n $p nrniv -python -mpi main.py 0 $s
 for i in `seq 1 $r`;
 do
     echo "Training step: $i"
-    mpiexec -n $p nrniv -python -mpi main.py $i
+    mpiexec -n $p nrniv -python -mpi main.py $i $s
 done

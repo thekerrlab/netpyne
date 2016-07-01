@@ -11,12 +11,18 @@ import sys
 ###############################################################################
 
 sim.trainTestID = -1    # Nonzero is a normal run. Zero is a run but with no RL.
+sim.seedRNG = 1         # Will always be 1 unless the second arg after main.py is different.
 sim.sysArgOffset = 0
 if 'main.py' in sys.argv:
     sim.sysArgOffset = sys.argv.index('main.py')
 if len(sys.argv) > sim.sysArgOffset+1:
     sim.trainTestID = int(sys.argv[1+sim.sysArgOffset])   # The first command line argument should be the number of the training run.
+if len(sys.argv) > sim.sysArgOffset+2:
+    sim.seedRNG = int(sys.argv[2+sim.sysArgOffset])   # The second command line argument should be the seed.
 print("Training run: %i" % sim.trainTestID)
+
+# Overwrite param seeds.
+params.simConfig['seeds'] = {'conn': sim.seedRNG, 'stim': sim.seedRNG, 'loc': sim.seedRNG}
 
 ###############################################################################
 # Set up Network
@@ -101,7 +107,7 @@ sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in rang
 sim.resetids = []
 
 # file suffix corresponding to params
-sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][stdp%i][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'], params.netParams['STDPon'], params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
 print 'File suffix: ' + sim.outFileSuffix
 
 ###############################################################################
