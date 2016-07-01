@@ -28,6 +28,7 @@ pnum = 5
 cscale = 1
 mscale = 1
 netParams['cscale'] = cscale
+netParams['STDPon'] = 0
 
 # Population parameters
 netParams['popParams'] = []  # create list of populations - each item will contain dict with pop params
@@ -92,7 +93,7 @@ netParams['synMechParams'].append({'label': 'GABA', 'mod': 'Exp2Syn', 'tau1': 0.
 # STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.000013, 'wmax': 50, 'RLon': 1 , 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
 #     'tauhebb': 10, 'RLwindhebb': 50, 'useRLexp': 1, 'softthresh': 0, 'verbose':0}
 
-STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.00001, 'wmax': 50, 'RLon': 1, 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
+STDPparams = {'hebbwt': 0.00001, 'antiwt':-0.00001, 'wmax': 50, 'RLon': 1, 'STDPon': netParams['STDPon'], 'RLhebbwt': 0.001, 'RLantiwt': -0.001, \
     'tauhebb': 10, 'RLwindhebb': 50, 'useRLexp': 0, 'softthresh': 0, 'verbose':0}
 
 netParams['connParams'] = []  

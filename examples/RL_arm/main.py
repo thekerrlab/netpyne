@@ -65,7 +65,7 @@ sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
 if sim.trainTestID != 0:
-    sim.useRL = True   # Should be True when not debugging...
+    sim.useRL = False   # Should be True when not debugging...
 else:
     sim.useRL = False
 sim.timeoflastRL = -1
@@ -90,7 +90,7 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 15*1e3
+sim.trialTime = 0.15*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
@@ -101,7 +101,7 @@ sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in rang
 sim.resetids = []
 
 # file suffix corresponding to params
-sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][stdp%i][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['STDPon'], params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
 print 'File suffix: ' + sim.outFileSuffix
 
 ###############################################################################
