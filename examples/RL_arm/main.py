@@ -101,7 +101,7 @@ sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in rang
 sim.resetids = []
 
 # file suffix corresponding to params
-sim.outFileSuffix = '_tar%i_(%i+%i)x%ims_%ix_rand%i%i%i' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'],params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
 print 'File suffix: ' + sim.outFileSuffix
 
 ###############################################################################
@@ -121,20 +121,22 @@ if sim.trainTestID == 0:
         pass
 
 print('Trying to load net weights from file...')
+dataloaded = False
 try:
     import pickle
     data = pickle.load(open(netWeightsFilename))
+    dataloaded = True
+except Exception as E:
+    print('No weight data has been loaded for this network')
+    print(E)
+if dataloaded:
     for lid,gid in enumerate(sim.net.lid2gid):
-        datacell = data['net']['cells'][gid]
+        datacell = data['net']['cells'][gid] # DOESN'T WORK because data['net']['cells'][gid]['gid'] is NOT gid
         simcell = sim.net.cells[lid]
-        for co,conn in enumerate(simcell['conns']):
-            conn['weight'] = 0.0
+        for co,conn in enumerate(datacell['conns']):
             simcell.conns[co]['weight'] = conn['weight']
             simcell.conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
-except Exception as E:
-    print('No weight data has been loaded from file for this network...')
-    print(E)
 
 ###############################################################################
 # Continue setup
