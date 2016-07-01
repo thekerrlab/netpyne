@@ -130,8 +130,9 @@ except Exception as E:
     print('No weight data has been loaded for this network')
     print(E)
 if dataloaded:
+    allgids = [data['net']['cells'][i]['gid'] for i in range(len(data['net']['cells']))]
     for lid,gid in enumerate(sim.net.lid2gid):
-        datacell = data['net']['cells'][gid] # DOESN'T WORK because data['net']['cells'][gid]['gid'] is NOT gid
+        datacell = data['net']['cells'][allgids.index(gid)] # DOESN'T WORK because data['net']['cells'][gid]['gid'] is NOT gid
         simcell = sim.net.cells[lid]
         for co,conn in enumerate(datacell['conns']):
             simcell.conns[co]['weight'] = conn['weight']
