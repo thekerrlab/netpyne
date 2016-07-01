@@ -124,14 +124,17 @@ print('Trying to load net weights from file...')
 try:
     import pickle
     data = pickle.load(open(netWeightsFilename))
-    for ce,cell in enumerate(data['net']['cells']):
-        for co,conn in enumerate(cell['conns']):
+    for lid,gid in enumerate(sim.net.lid2gid):
+        datacell = data['net']['cells'][gid]
+        simcell = sim.net.cells[lid]
+        for co,conn in enumerate(simcell['conns']):
             conn['weight'] = 0.0
-            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
-            sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
+            simcell.conns[co]['weight'] = conn['weight']
+            simcell.conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
-except:
+except Exception as E:
     print('No weight data has been loaded from file for this network...')
+    print(E)
 
 ###############################################################################
 # Continue setup
