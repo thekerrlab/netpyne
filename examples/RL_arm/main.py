@@ -116,20 +116,28 @@ if sim.trainTestID == 0:
     from os import remove
     try:
         remove(netWeightsFilename)
+        print('Removed %s' % netWeightsFilename)
     except:
         pass
 
 print('Trying to load net weights from file...')
+dataloaded = False
 try:
     import pickle
     data = pickle.load(open(netWeightsFilename))
-    for ce,cell in enumerate(data['net']['cells']):
-        for co,conn in enumerate(cell['conns']):
-            sim.net.cells[ce].conns[co]['weight'] = conn['weight']
-            sim.net.cells[ce].conns[co]['hNetcon'].weight[0] = conn['weight']
+    dataloaded = True
+except Exception as E:
+    print('No weight data has been loaded for this network')
+    print(E)
+if dataloaded:
+    allgids = [data['net']['cells'][i]['gid'] for i in range(len(data['net']['cells']))]
+    for lid,gid in enumerate(sim.net.lid2gid):
+        datacell = data['net']['cells'][allgids.index(gid)] # DOESN'T WORK because data['net']['cells'][gid]['gid'] is NOT gid
+        simcell = sim.net.cells[lid]
+        for co,conn in enumerate(datacell['conns']):
+            simcell.conns[co]['weight'] = conn['weight']
+            simcell.conns[co]['hNetcon'].weight[0] = conn['weight']
     print('...success!')
-except:
-    print('No weight data has been loaded from file for this network...')
 
 ###############################################################################
 # Continue setup
