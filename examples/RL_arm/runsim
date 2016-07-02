@@ -1,8 +1,8 @@
 #!/bin/bash
 
-r=100
-p=4
-s=2
+r=20 # Number of runs
+p=4 # Number of processes (cores)
+s=754 # Random seed
 mpiexec -n $p nrniv -python -mpi main.py 0 $s
 for i in `seq 1 $r`;
 do
