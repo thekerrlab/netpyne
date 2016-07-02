@@ -28,7 +28,7 @@ pnum = 5
 cscale = 1
 mscale = 1
 netParams['cscale'] = cscale
-netParams['STDPon'] = 1
+netParams['STDPon'] = 0
 
 # Population parameters
 netParams['popParams'] = []  # create list of populations - each item will contain dict with pop params
