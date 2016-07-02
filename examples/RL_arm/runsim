@@ -1,11 +1,14 @@
 #!/bin/bash
 
-r=20 # Number of runs
-p=4 # Number of processes (cores)
-s=754 # Random seed
-mpiexec -n $p nrniv -python -mpi main.py 0 $s
-for i in `seq 1 $r`;
+r=100 # Number of runs
+p=10 # Number of processes (cores)
+s=0 # Random seed
+for s in `seq 0 1`;
 do
-    echo "Training step: $i"
-    mpiexec -n $p nrniv -python -mpi main.py $i $s
+    mpiexec -n $p nrniv -python -mpi main.py 0 $s
+    for i in `seq 1 $r`;
+    do
+        echo "Training step: $i"
+        mpiexec -n $p nrniv -python -mpi main.py $i $s
+    done
 done
