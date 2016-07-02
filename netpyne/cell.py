@@ -599,8 +599,8 @@ class Cell (object):
                     self.conns[-1]['hSTDPpstcon']   = pstcon
                     self.conns[-1]['STDPdata']      = {'preGid':params['preGid'], 'postGid': self.gid, 'receptor': weightIndex} # Not used; FYI only; store here just so it's all in one place
                     if sim.cfg['verbose']: print('  Added STDP plasticity to synaptic mechanism')
-            except:
-                print 'Error: exception when adding plasticity using %s mechanism' % (plasticity['mech'])
+            except Exception as E:
+                print('Error: exception when adding plasticity using %s mechanism: "%s"' % (plasticity['mech'], str(E)))
 
 
     def recordTraces (self):
