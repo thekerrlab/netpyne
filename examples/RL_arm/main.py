@@ -90,7 +90,7 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 1*1e3
+sim.trialTime = 5*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
