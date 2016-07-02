@@ -372,8 +372,8 @@ class Arm:
         if t > self.initArmMovement:
             # Gather spikes from all vectors to then calculate motor command 
             for i in range(f.nMuscles):
-                cmdVecs = array([spkt for spkt,spkid in zip(f.simData['spkt'], f.simData['spkid']) if spkid in f.motorCmdCellRange[i]])
-                self.motorCmd[i] = len(cmdVecs[(cmdVecs < t) * (cmdVecs > t-self.cmdtimewin)])
+#                cmdVecs = array([spkt for spkt,spkid in zip(f.simData['spkt'], f.simData['spkid']) if spkid in f.motorCmdCellRange[i]])
+#                self.motorCmd[i] = len(cmdVecs[(cmdVecs < t) * (cmdVecs > t-self.cmdtimewin)])
                 f.pc.allreduce(self.vec.from_python([self.motorCmd[i]]), 1) # sum
                 self.motorCmd[i] = self.vec.to_python()[0]        
          
