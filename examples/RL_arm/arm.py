@@ -9,7 +9,7 @@ Version: 2015jan28 by salvadordura@gmail.com
 """
 
 from neuron import h
-from numpy import array, zeros, pi, ones, cos, sin, mean
+from numpy import array, zeros, pi, ones, cos, sin, mean, nonzero
 from pylab import concatenate, figure, show, ion, ioff, pause,xlabel, ylabel, plot, Circle, sqrt, arctan, arctan2, close
 from copy import copy
 from random import uniform, seed, sample, randint
@@ -372,8 +372,11 @@ class Arm:
         if t > self.initArmMovement:
             # Gather spikes from all vectors to then calculate motor command 
             for i in range(f.nMuscles):
-#                cmdVecs = array([spkt for spkt,spkid in zip(f.simData['spkt'], f.simData['spkid']) if spkid in f.motorCmdCellRange[i]])
-#                self.motorCmd[i] = len(cmdVecs[(cmdVecs < t) * (cmdVecs > t-self.cmdtimewin)])
+                spktvec = array(f.simData['spkt'])
+                spkgids = array(f.simData['spkid'])
+                inds = nonzero((spktvec < t) * (spktvec > t-self.cmdtimewin)) # Filter
+                cmdVecs = array([spkt for spkt,spkid in zip(spktvec[inds], spkgids[inds]) if spkid in f.motorCmdCellRange[i]])
+                self.motorCmd[i] = len(cmdVecs[(cmdVecs < t) * (cmdVecs > t-self.cmdtimewin)])
                 f.pc.allreduce(self.vec.from_python([self.motorCmd[i]]), 1) # sum
                 self.motorCmd[i] = self.vec.to_python()[0]        
          

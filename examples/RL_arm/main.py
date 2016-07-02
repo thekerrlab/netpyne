@@ -142,11 +142,10 @@ if sim.useArm:
     sim.arm.setup(sim)  # pass framework as argument
 
 # Function to run at intervals during simulation
-def runArm(t):
+def runArm(t, printupdates=100):
     # turn off RL and explor movs for last testing trial 
 
-#    if int(t)%100==0:
-    print('[%f, %f],' % (t,time()-starttime))
+    if round(t)%printupdates<1e-3: print('[%f, %f],' % (t,time()-starttime))
     if t >= sim.trainTime:
         sim.useRL = False
         sim.explorMovs = False
