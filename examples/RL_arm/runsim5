@@ -3,7 +3,7 @@
 r=20 # Number of runs
 p=10 # Number of processes (cores)
 s=0 # Random seed
-for s in `seq 0 1`;
+for s in `seq 8 9`;
 do
     mpiexec -n $p nrniv -python -mpi main.py 0 $s
     for i in `seq 1 $r`;
