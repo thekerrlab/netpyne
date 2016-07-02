@@ -1,4 +1,4 @@
 #!/bin/bash
 # Run with a different number of cores
 
-mpiexec -n $1 nrniv -python -mpi main.py
+mpiexec -n $1 nrniv -python -mpi main.py 0 547

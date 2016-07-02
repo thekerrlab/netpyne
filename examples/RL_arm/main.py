@@ -151,7 +151,8 @@ if sim.useArm:
 def runArm(t, printupdates=100):
     # turn off RL and explor movs for last testing trial 
 
-    if round(t)%printupdates<1e-3: print('[%f, %f],' % (t,time()-starttime))
+    if round(t)%printupdates<1e-3:
+        if sim.rank==0: print('     sim_t = %0.1f, real_t = %0.1f' % (t/1e3,time()-starttime))
     if t >= sim.trainTime:
         sim.useRL = False
         sim.explorMovs = False
