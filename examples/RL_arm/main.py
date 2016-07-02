@@ -2,7 +2,7 @@ import params  # import parameters file
 from netpyne import sim  # import netpyne init module
 from arm import Arm
 from neuron import h
-from time import time, sleep
+from time import time
 from pylab import radians, inf, ceil
 import sys
 
@@ -65,7 +65,7 @@ sim.antagInh = 1  # inhibition from antagonic muscle
 
 # RL
 if sim.trainTestID != 0:
-    sim.useRL = True   # Should be True when not debugging...
+    sim.useRL = False   # Should be True when not debugging...
 else:
     sim.useRL = False
 sim.timeoflastRL = -1
@@ -90,7 +90,7 @@ sim.timeoflastreset = 0 # time when arm was last reseted
 
 # train/test params
 sim.gridTrain = False
-sim.trialTime = 5*1e3
+sim.trialTime = 6*1e3
 sim.trainTime = 1 * sim.trialTime
 sim.testTime = 1 * sim.trialTime
 sim.cfg['duration'] = sim.trainTime + sim.testTime
@@ -144,6 +144,9 @@ if sim.useArm:
 # Function to run at intervals during simulation
 def runArm(t):
     # turn off RL and explor movs for last testing trial 
+
+#    if int(t)%100==0:
+    print('[%f, %f],' % (t,time()-starttime))
     if t >= sim.trainTime:
         sim.useRL = False
         sim.explorMovs = False
@@ -208,6 +211,7 @@ def plotWeights():
 # Run Network with virtual arm
 ###############################################################################
 
+starttime = time()
 sim.runSimWithIntervalFunc(sim.updateInterval, runArm)        # run parallel Neuron simulation
 
 # Update cell-conn data with final weights.
