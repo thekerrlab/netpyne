@@ -10,9 +10,9 @@ Created on Sun Jul  3 11:24:49 2016
 
 from optima import alpinecolormap
 import matplotlib.pyplot as plt
-plt.rcParams['image.cmap'] = 'gray'
+plt.rcParams['image.cmap'] = 'viridis'
 #plt.register_cmap(name='alpine', data=alpinecolormap())
 #plt.set_cmap(alpinecolormap())
-sim.analysis.plotConn(include=['allCells'], cmap=alpinecolormap())
+#sim.analysis.plotConn(include=['allCells'], logscale=True)
 #plt.set_cmap(alpinecolormap())
-plt.rcParams['image.cmap'] = 'gray'
+#plt.rcParams['image.cmap'] = 'gray'

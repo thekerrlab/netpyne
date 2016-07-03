@@ -6,10 +6,10 @@ Functions to plot and analyse results
 Contributors: salvadordura@gmail.com
 """
 
-from matplotlib.pylab import nanmax, nanmin, errstate, bar, histogram, floor, ceil, yticks, arange, gca, scatter, figure, hold, subplot, axes, shape, imshow, \
-    colorbar, plot, xlabel, ylabel, title, xlim, ylim, clim, show, zeros, legend, savefig, psd, ion, subplots_adjust, subplots, tight_layout
+from matplotlib.pylab import nanmax, nanmin, bar, histogram, floor, ceil, arange, gca, scatter, figure, hold, subplot, axes, imshow, \
+    colorbar, plot, xlabel, ylabel, title, xlim, ylim, clim, show, zeros, legend, savefig, psd, subplots_adjust, subplots, tight_layout
 from matplotlib import gridspec
-from scipy import size, array, linspace, ceil
+from scipy import array, log10
 from numbers import Number
 import math
 
@@ -597,7 +597,7 @@ def _roundFigures(x, n):
 ######################################################################################################################################################
 ## Plot connectivity
 ######################################################################################################################################################
-def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize = (10,10), groupBy = 'pop', groupByInterval = None, saveData = None, saveFig = None, showFig = True, **kwargs): 
+def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize = (10,10), groupBy = 'pop', groupByInterval = None, logscale=False, saveData = None, saveFig = None, showFig = True, **kwargs): 
     ''' 
     Plot network connectivity
         - include (['all',|'allCells','allNetStims',|,120,|,'E1'|,('L2', 56)|,('L5',[4,5,6])]): Cells to show (default: ['all'])
@@ -607,6 +607,7 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
         - groupByInterval (int or float): Interval of groupBy feature to group cells by in conn matrix, e.g. 100 to group by cortical depth in steps of 100 um   (default: None)
         - orderBy ('gid'|'y'|'ynorm'|...): Unique numeric cell property to order x and y axes by, e.g. 'gid', 'ynorm', 'y' (requires groupBy='cells') (default: 'gid')
         - figSize ((width, height)): Size of figure (default: (10,10))
+        - logscale (False): plot log of weights
         - saveData (None|'fileName'): File name where to save the final data used to generate the figure (default: None)
         - saveFig (None|'fileName'): File name where to save the figure (default: None)
         - showFig (True|False): Whether to show the figure or not (default: True)
@@ -799,8 +800,15 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
             connMatrix = countMatrix / maxPostConnMatrix
         elif feature == 'divergence':
             connMatrix = countMatrix / maxPreConnMatrix
-
-    imshow(connMatrix, interpolation='nearest', vmin=nanmin(connMatrix), vmax=nanmax(connMatrix), **kwargs)  #_bicolormap(gap=0)
+    
+    # Transform to log scale if required
+    if logscale: connMatrix = log10(connMatrix+min(connMatrix[connMatrix>0]))
+    
+    # Actually plot
+    if not('interpolation' in kwargs):  kwargs['interpolation'] = 'nearest'
+    if not('vmin' in kwargs):  kwargs['vmin'] = nanmin(connMatrix)
+    if not('vmax' in kwargs): kwargs['vmax'] = nanmax(connMatrix)
+    imshow(connMatrix, **kwargs)  #_bicolormap(gap=0)
 
 
     # Plot grid lines
@@ -817,7 +825,7 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
         h.xaxis.set_ticks_position('top')
         xlim(-0.5,len(cells)-0.5)
         ylim(len(cells)-0.5,-0.5)
-        clim(nanmin(connMatrix),nanmax(connMatrix))
+#        clim(nanmin(connMatrix),nanmax(connMatrix))
 
     elif groupBy == 'pop':
         for ipop, pop in enumerate(pops):
@@ -832,7 +840,7 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
         h.xaxis.set_ticks_position('top')
         xlim(-0.5,len(pops)-0.5)
         ylim(len(pops)-0.5,-0.5)
-        clim(nanmin(connMatrix),nanmax(connMatrix))
+#        clim(nanmin(connMatrix),nanmax(connMatrix))
 
     else:
         for igroup, group in enumerate(groups):
@@ -847,8 +855,10 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
         h.xaxis.set_ticks_position('top')
         xlim(-0.5,len(groups)-0.5)
         ylim(len(groups)-0.5,-0.5)
-        clim(nanmin(connMatrix),nanmax(connMatrix))
-
+#        clim(nanmin(connMatrix),nanmax(connMatrix))
+    
+    colorbarlabel = feature
+    if logscale: colorbarlabel = 'log(%s)' % colorbarlabel
     colorbar(label=feature, shrink=0.8) #.set_label(label='Fitness',size=20,weight='bold')
     xlabel('post')
     h.xaxis.set_label_coords(0.5, 1.06)
