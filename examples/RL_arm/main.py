@@ -103,7 +103,7 @@ sim.cfg['duration'] = sim.trainTime + sim.testTime
 sim.numTrials = ceil(sim.cfg['duration']/sim.trialTime)
 sim.numTargets = 1
 sim.targetid = 1 # target to train+test
-sim.trialTargets = [sim.targetid]*sim.numTrials #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
+sim.trialTargets = [sim.targetid]*(sim.numTrials+1) #[i%sim.numTargets for i in range(int(sim.numTrials+1))] # set target for each trial
 sim.resetids = []
 
 # file suffix corresponding to params
