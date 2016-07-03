@@ -107,7 +107,7 @@ sim.trialTargets = [sim.targetid]*(sim.numTrials+1) #[i%sim.numTargets for i in 
 sim.resetids = []
 
 # file suffix corresponding to params
-sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][stdp%i][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'], params.netParams['STDPon'], params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
+sim.outFileSuffix = '[tar%i][(%i+%i)x%ims][%ix][stdp%i][rl5e-4][rand%i%i%i]' % (sim.targetid, int(sim.trainTime/sim.trialTime), int(sim.testTime/sim.trialTime), sim.trialTime, params.netParams['cscale'], params.netParams['STDPon'], params.simConfig['seeds']['conn'],params.simConfig['seeds']['stim'],params.simConfig['seeds']['loc'])
 print 'File suffix: ' + sim.outFileSuffix
 
 ###############################################################################

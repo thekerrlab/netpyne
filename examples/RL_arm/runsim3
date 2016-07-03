@@ -1,6 +1,6 @@
 #!/bin/bash
 
-r=20 # Number of runs
+r=10 # Number of runs
 p=10 # Number of processes (cores)
 s=0 # Random seed
 for s in `seq 4 5`;
