@@ -5,16 +5,21 @@ Created on Fri Jul 01 14:35:19 2016
 @author: David Kedziora
 """
 
+
+from pylab import figure, loadtxt, show, mean, where, arange
+
 filedir = '/home/cliffk/2016cns/data/'
 
-filesuffix = '[tar1][(1+1)x5000ms][4x][stdp0][rand999]'
+filesuffix = '[tar1][(1+1)x5000ms][1x][stdp0][rl1e-4][rand555]'
 # Note: This code only works for (1+1)x...ms and a constant timestep!
 factor = 1.0/2.0  # At what fraction of total duration does test start?
 
 lockradius = 0.04
 dosave = False
 
-from pylab import figure, loadtxt, show, mean, where, arange
+errdata = loadtxt(filedir + 'errs' + filesuffix + '.txt')
+tdata = loadtxt(filedir + 'armt' + filesuffix + '.txt')
+
 
 fig1 = figure()
 ax1 = fig1.add_subplot(111)
@@ -29,8 +34,7 @@ ax5 = fig5.add_subplot(111)
 fig6 = figure()
 ax6 = fig6.add_subplot(111)
 
-errdata = loadtxt(filedir + 'errs' + filesuffix + '.txt')
-tdata = loadtxt(filedir + 'armt' + filesuffix + '.txt')
+
 
 itlist = arange(len(errdata))
 
