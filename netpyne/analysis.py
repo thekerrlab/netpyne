@@ -597,7 +597,7 @@ def _roundFigures(x, n):
 ######################################################################################################################################################
 ## Plot connectivity
 ######################################################################################################################################################
-def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize = (10,10), groupBy = 'pop', groupByInterval = None, saveData = None, saveFig = None, showFig = True): 
+def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize = (10,10), groupBy = 'pop', groupByInterval = None, saveData = None, saveFig = None, showFig = True, **kwargs): 
     ''' 
     Plot network connectivity
         - include (['all',|'allCells','allNetStims',|,120,|,'E1'|,('L2', 56)|,('L5',[4,5,6])]): Cells to show (default: ['all'])
@@ -800,7 +800,7 @@ def plotConn (include = ['all'], feature = 'strength', orderBy = 'gid', figSize 
         elif feature == 'divergence':
             connMatrix = countMatrix / maxPreConnMatrix
 
-    imshow(connMatrix, interpolation='nearest', cmap='jet', vmin=nanmin(connMatrix), vmax=nanmax(connMatrix))  #_bicolormap(gap=0)
+    imshow(connMatrix, interpolation='nearest', vmin=nanmin(connMatrix), vmax=nanmax(connMatrix), **kwargs)  #_bicolormap(gap=0)
 
 
     # Plot grid lines
