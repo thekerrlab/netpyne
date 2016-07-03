@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 plt.rcParams['image.cmap'] = 'viridis'
 #plt.register_cmap(name='alpine', data=alpinecolormap())
 #plt.set_cmap(alpinecolormap())
-#sim.analysis.plotConn(include=['allCells'], logscale=True)
+sim.analysis.plotConn(include=['allCells'], logscale=True)
 #plt.set_cmap(alpinecolormap())
 #plt.rcParams['image.cmap'] = 'gray'
+
+#sim.analysis.plot2Dnet()
