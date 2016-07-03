@@ -25,10 +25,10 @@ simConfig = {}  # dictionary to store sets of simulation configurations
 netParams['scaleConnWeight'] = 0.001 # Connection weight scale factor
 
 pnum = 5
-cscale = 4
+cscale = 0.5
 mscale = 1
 netParams['cscale'] = cscale
-netParams['STDPon'] = 1
+netParams['STDPon'] = 0
 
 # Population parameters
 netParams['popParams'] = []  # create list of populations - each item will contain dict with pop params
