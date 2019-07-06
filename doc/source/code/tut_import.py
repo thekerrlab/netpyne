@@ -76,11 +76,11 @@ netParams.importCellParams(label='PYR_Izhi07b_rule', conds={'cellType': 'PYR', '
 	fileName='izhi2007Wrapper.py', cellName='IzhiCell',  cellArgs={'type':'RS'})
 
 ### AdExp (independent voltage)
-cellRule = netParams.importCellParams(label='PYR_Izhi07a_rule', conds={'cellType': 'PYR', 'cellModel':'Izh2007a'}, 
-	fileName='izhi2007Wrapper.py', cellName='IzhiCell',  cellArgs={'type':'RS', 'host':'dummy'})
-netParams.renameCellParamsSec('PYR_Izhi07a_rule', 'sec', 'soma')  # rename imported section 'sec' to 'soma'
-cellRule['secs']['soma']['pointps']['Izhi2007a_0']['vref'] = 'V' # specify that uses its own voltage V
-cellRule['secs']['soma']['pointps']['Izhi2007a_0']['synList'] = ['AMPA', 'NMDA', 'GABAA', 'GABAB']  # specify its own synapses
+cellRule = netParams.importCellParams(label='PYR_AdExp_rule', conds={'cellType': 'PYR', 'cellModel':'AdExp'}, 
+	fileName='adExp.py', cellName='AdExpCell',  cellArgs={'host':'dummy'})
+netParams.renameCellParamsSec('PYR_AdExp_rule', 'sec', 'soma')  # rename imported section 'sec' to 'soma'
+cellRule['secs']['soma']['pointps']['AdExp_0']['vref'] = 'vv' # specify that uses its own voltage V
+cellRule['secs']['soma']['pointps']['AdExp_0']['synList'] = ['w0', 'w1', 'w2']  # specify its own synapses
 
 ## Synaptic mechanism parameters
 netParams.synMechParams['AMPA'] = {'mod': 'Exp2Syn', 'tau1': 1.0, 'tau2': 5.0, 'e': 0}  # soma NMDA synapse
