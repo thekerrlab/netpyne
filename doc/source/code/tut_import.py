@@ -1,3 +1,13 @@
+'''
+Illustration of multiple cell models in a single network.
+
+First compile the mechanisms:
+    nrnivmodl mod
+
+Then run the simulation:
+    python -i tut_import.py
+'''
+
 from netpyne import specs, sim
 
 # Network parameters
@@ -13,6 +23,7 @@ netParams.popParams['Izhi03a_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellMod
 netParams.popParams['Izhi03b_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2003b'} 
 netParams.popParams['Izhi07a_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2007a'} 
 netParams.popParams['Izhi07b_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2007b'} 
+netParams.popParams['AdExp_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'AdExp'} 
 
 
 ### HH
@@ -64,6 +75,12 @@ cellRule['secs']['soma']['pointps']['Izhi2007a_0']['synList'] = ['AMPA', 'NMDA',
 netParams.importCellParams(label='PYR_Izhi07b_rule', conds={'cellType': 'PYR', 'cellModel':'Izh2007b'},
 	fileName='izhi2007Wrapper.py', cellName='IzhiCell',  cellArgs={'type':'RS'})
 
+### AdExp (independent voltage)
+cellRule = netParams.importCellParams(label='PYR_Izhi07a_rule', conds={'cellType': 'PYR', 'cellModel':'Izh2007a'}, 
+	fileName='izhi2007Wrapper.py', cellName='IzhiCell',  cellArgs={'type':'RS', 'host':'dummy'})
+netParams.renameCellParamsSec('PYR_Izhi07a_rule', 'sec', 'soma')  # rename imported section 'sec' to 'soma'
+cellRule['secs']['soma']['pointps']['Izhi2007a_0']['vref'] = 'V' # specify that uses its own voltage V
+cellRule['secs']['soma']['pointps']['Izhi2007a_0']['synList'] = ['AMPA', 'NMDA', 'GABAA', 'GABAB']  # specify its own synapses
 
 ## Synaptic mechanism parameters
 netParams.synMechParams['AMPA'] = {'mod': 'Exp2Syn', 'tau1': 1.0, 'tau2': 5.0, 'e': 0}  # soma NMDA synapse
