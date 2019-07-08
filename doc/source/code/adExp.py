@@ -4,7 +4,7 @@ from neuron import h # Open NEURON
 
 ## Create basic AdExp neuron with default parameters
 def createAdExp(section, **kwargs):
-    cell = h.AdExp(0.5, sec=section) # Create a new Izhikevich neuron at location 0 (doesn't matter where) in h.Section() "section"
+    cell = h.AdExp(0.5, sec=section) # Create a new AdExp neuron at location 0 (doesn't matter where) in h.Section() "section"
     cell.rpeso = 30
     cell.mNMDA = 1.0 # Was 0
     cell.v0_block = -55
@@ -47,4 +47,4 @@ class AdExpCell():
             self.adx = createAdExp(self.sec) 
         else: 
             self.sec = dummy
-            self.izh = createAdExp(self.sec) 
+            self.adx = createAdExp(self.sec) 
