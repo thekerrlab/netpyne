@@ -23,7 +23,7 @@ netParams.popParams['Izhi03a_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellMod
 netParams.popParams['Izhi03b_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2003b'} 
 netParams.popParams['Izhi07a_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2007a'} 
 netParams.popParams['Izhi07b_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'Izh2007b'} 
-netParams.popParams['AdExp_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'AdExp'} 
+netParams.popParams['AdExp_pop'] = {'cellType': 'PYR', 'numCells': 5, 'cellModel': 'AExp'} # CK: Warning, must NOT be the same as the mechanism name!
 
 
 ### HH
@@ -76,7 +76,7 @@ netParams.importCellParams(label='PYR_Izhi07b_rule', conds={'cellType': 'PYR', '
 	fileName='izhi2007Wrapper.py', cellName='IzhiCell',  cellArgs={'type':'RS'})
 
 ### AdExp (independent voltage)
-cellRule = netParams.importCellParams(label='PYR_AdExp_rule', conds={'cellType': 'PYR', 'cellModel':'AdExp'}, 
+cellRule = netParams.importCellParams(label='PYR_AdExp_rule', conds={'cellType': 'PYR', 'cellModel':'AExp'}, 
 	fileName='adExp.py', cellName='AdExpCell',  cellArgs={'host':'dummy'})
 netParams.renameCellParamsSec('PYR_AdExp_rule', 'sec', 'soma')  # rename imported section 'sec' to 'soma'
 cellRule['secs']['soma']['pointps']['AdExp_0']['vref'] = 'vv' # specify that uses its own voltage V
@@ -88,7 +88,7 @@ netParams.synMechParams['AMPA'] = {'mod': 'Exp2Syn', 'tau1': 1.0, 'tau2': 5.0, '
 
 # Stimulation parameters
 netParams.stimSourceParams['bkg'] = {'type': 'NetStim', 'rate': 50, 'noise': 0.5}
-netParams.stimTargetParams['bg1'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Traub', 'HH', 'HH3D', 'Mainen', 'Izh2003b', 'Izh2007b']}, 
+netParams.stimTargetParams['bg1'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Traub', 'HH', 'HH3D', 'Mainen', 'Izh2003b', 'Izh2007b', 'AExp']}, 
 									'weight': 0.1, 'delay': 5, 'sec': 'soma'}
 netParams.stimTargetParams['bg2'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Friesen','Izh2003a', 'Izh2007a']}, 
 									'weight': 5, 'delay': 5, 'sec': 'soma'}
