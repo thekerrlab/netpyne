@@ -88,11 +88,12 @@ netParams.synMechParams['AMPA'] = {'mod': 'Exp2Syn', 'tau1': 1.0, 'tau2': 5.0, '
 
 # Stimulation parameters
 netParams.stimSourceParams['bkg'] = {'type': 'NetStim', 'rate': 50, 'noise': 0.5}
-netParams.stimTargetParams['bg1'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Traub', 'HH', 'HH3D', 'Mainen', 'Izh2003b', 'Izh2007b', 'AExp']}, 
+netParams.stimTargetParams['bg1'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Traub', 'HH', 'HH3D', 'Mainen', 'Izh2003b', 'Izh2007b']}, 
 									'weight': 0.1, 'delay': 5, 'sec': 'soma'}
 netParams.stimTargetParams['bg2'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['Friesen','Izh2003a', 'Izh2007a']}, 
 									'weight': 5, 'delay': 5, 'sec': 'soma'}
-
+netParams.stimTargetParams['bg3'] = {'source': 'bkg', 'conds': {'cellType': 'PYR', 'cellModel': ['AExp']}, 
+									'weight': 0.1, 'delay': 5, 'sec': 'soma'}
 
 ## Connectivity params		
 netParams.connParams['recurrent'] = {
